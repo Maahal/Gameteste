@@ -1,44 +1,3 @@
-// Verifica se o dispositivo é móvel
-const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-
-// Elementos de controle
-const controls = document.getElementById('controls');
-const upButton = document.getElementById('up');
-const leftButton = document.getElementById('left');
-const downButton = document.getElementById('down');
-const rightButton = document.getElementById('right');
-
-// Mostra os controles apenas em dispositivos móveis
-if (isMobile) {
-    controls.classList.remove('hidden');
-}
-
-// Eventos de toque para os botões
-upButton.addEventListener('touchstart', () => moveAvatar('up'));
-leftButton.addEventListener('touchstart', () => moveAvatar('left'));
-downButton.addEventListener('touchstart', () => moveAvatar('down'));
-rightButton.addEventListener('touchstart', () => moveAvatar('right'));
-
-// Função para mover o avatar
-function moveAvatar(direction) {
-    if (!gameStarted) return;
-
-    switch (direction) {
-        case 'up':
-            avatar.position.z -= moveSpeed;
-            break;
-        case 'down':
-            avatar.position.z += moveSpeed;
-            break;
-        case 'left':
-            avatar.position.x -= moveSpeed;
-            break;
-        case 'right':
-            avatar.position.x += moveSpeed;
-            break;
-    }
-}
-
 // Configuração da cena, câmera e renderizador
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -61,6 +20,24 @@ let score = 0;
 let cubes = [];
 let gameStarted = false;
 let avatar;
+
+// Verifica se o dispositivo é móvel
+const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+// Elementos de controle para mobile
+const controls = document.getElementById('controls');
+const upButton = document.getElementById('up');
+const leftButton = document.getElementById('left');
+const downButton = document.getElementById('down');
+const rightButton = document.getElementById('right');
+
+// Mostra os controles apenas em dispositivos móveis
+if (isMobile) {
+    controls.classList.remove('hidden');
+}
+
+// Velocidade de movimento
+const moveSpeed = 0.1;
 
 // Função para iniciar o jogo
 function startGame() {
@@ -112,7 +89,7 @@ function setupScene() {
     sidewalk4.receiveShadow = true;
     scene.add(sidewalk4);
 
-    // Função para criar postes de luz
+    // Postes de luz
     function createStreetLight() {
         const poleGeometry = new THREE.CylinderGeometry(0.1, 0.1, 5, 32);
         const poleMaterial = new THREE.MeshStandardMaterial({ color: 0x444444 });
@@ -157,10 +134,6 @@ function setupScene() {
     streetLight4.position.set(8, 0, 8);
     scene.add(streetLight4);
 
-    const streetLight5 = createStreetLight();
-    streetLight5.position.set(0, 0, 0);
-    scene.add(streetLight5);
-
     // Avatar
     const avatarGeometry = new THREE.BoxGeometry(1, 1, 1);
     const avatarMaterial = new THREE.MeshStandardMaterial({ color: 0x0000ff });
@@ -193,15 +166,40 @@ function setupScene() {
     camera.lookAt(0, 0, 0);
 }
 
-// Controles do avatar
-const moveSpeed = 0.1;
+// Função para mover o avatar
+function moveAvatar(direction) {
+    if (!gameStarted) return;
+
+    switch (direction) {
+        case 'up':
+            avatar.position.z -= moveSpeed;
+            break;
+        case 'down':
+            avatar.position.z += moveSpeed;
+            break;
+        case 'left':
+            avatar.position.x -= moveSpeed;
+            break;
+        case 'right':
+            avatar.position.x += moveSpeed;
+            break;
+    }
+}
+
+// Eventos de toque para os botões
+upButton.addEventListener('touchstart', () => moveAvatar('up'));
+leftButton.addEventListener('touchstart', () => moveAvatar('left'));
+downButton.addEventListener('touchstart', () => moveAvatar('down'));
+rightButton.addEventListener('touchstart', () => moveAvatar('right'));
+
+// Controles de teclado
 document.addEventListener('keydown', (event) => {
     if (!gameStarted) return;
     switch (event.key) {
-        case 'ArrowUp': avatar.position.z -= moveSpeed; break;
-        case 'ArrowDown': avatar.position.z += moveSpeed; break;
-        case 'ArrowLeft': avatar.position.x -= moveSpeed; break;
-        case 'ArrowRight': avatar.position.x += moveSpeed; break;
+        case 'ArrowUp': moveAvatar('up'); break;
+        case 'ArrowDown': moveAvatar('down'); break;
+        case 'ArrowLeft': moveAvatar('left'); break;
+        case 'ArrowRight': moveAvatar('right'); break;
     }
 });
 
