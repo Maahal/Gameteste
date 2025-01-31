@@ -1,3 +1,47 @@
+// Verifica se o dispositivo é móvel
+const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+// Elementos de controle
+const controls = document.getElementById('controls');
+const upButton = document.getElementById('up');
+const leftButton = document.getElementById('left');
+const downButton = document.getElementById('down');
+const rightButton = document.getElementById('right');
+
+// Mostra os controles apenas em dispositivos móveis
+if (isMobile) {
+    controls.classList.remove('hidden');
+}
+
+avatar.position.x += moveX * moveSpeed;
+avatar.position.z += moveZ * moveSpeed;
+
+// Eventos de toque para os botões
+upButton.addEventListener('touchstart', () => moveAvatar('up'));
+leftButton.addEventListener('touchstart', () => moveAvatar('left'));
+downButton.addEventListener('touchstart', () => moveAvatar('down'));
+rightButton.addEventListener('touchstart', () => moveAvatar('right'));
+
+// Função para mover o avatar
+function moveAvatar(direction) {
+    if (!gameStarted) return;
+
+    switch (direction) {
+        case 'up':
+            avatar.position.z -= moveSpeed;
+            break;
+        case 'down':
+            avatar.position.z += moveSpeed;
+            break;
+        case 'left':
+            avatar.position.x -= moveSpeed;
+            break;
+        case 'right':
+            avatar.position.x += moveSpeed;
+            break;
+    }
+}
+
 // Configuração da cena, câmera e renderizador
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -115,6 +159,10 @@ function setupScene() {
     const streetLight4 = createStreetLight();
     streetLight4.position.set(8, 0, 8);
     scene.add(streetLight4);
+
+    const streetLight5 = createStreetLight();
+    streetLight5.position.set(0, 0, 0);
+    scene.add(streetLight5);
 
     // Avatar
     const avatarGeometry = new THREE.BoxGeometry(1, 1, 1);

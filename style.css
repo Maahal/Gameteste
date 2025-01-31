@@ -45,3 +45,44 @@ canvas {
 #hud.hidden {
     display: none;
 }
+
+/* Controles para mobile */
+#controls {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    z-index: 1000;
+}
+
+#controls.hidden {
+    display: none;
+}
+
+#controls button {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#controls button:hover {
+    background: rgba(0, 0, 0, 0.9);
+}
+
+/* Ajuste para dispositivos móveis */
+@media (max-width: 768px) {
+    #controls {
+        display: flex;
+    }
+}
