@@ -13,9 +13,6 @@ if (isMobile) {
     controls.classList.remove('hidden');
 }
 
-avatar.position.x += moveX * moveSpeed;
-avatar.position.z += moveZ * moveSpeed;
-
 // Eventos de toque para os botões
 upButton.addEventListener('touchstart', () => moveAvatar('up'));
 leftButton.addEventListener('touchstart', () => moveAvatar('left'));
